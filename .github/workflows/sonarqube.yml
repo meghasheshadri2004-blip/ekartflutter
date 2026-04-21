@@ -27,7 +27,7 @@ jobs:
         uses: SonarSource/sonarqube-scan-action@v2
         with:
           args: >
-            -Dsonar.projectKey=Ekart-test
+            -Dsonar.projectKey=ekartflutter
             -Dsonar.organization=meghashesadri2004-blip
             -Dsonar.sources=lib
         env:
