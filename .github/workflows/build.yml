@@ -1,0 +1,37 @@
+# name: Build
+on:
+  push:
+    branches:
+      - main  # Change this to master if that is your branch name
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  sonarqube:
+    name: SonarQube
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Step to install Flutter on the Windows Runner
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      # Step to get dependencies (Replaces the <mark> error)
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v2
+        with:
+          args: >
+            -Dsonar.projectKey=Ekart-test
+            -Dsonar.organization=meghashesadri2004-blip
+            -Dsonar.sources=lib
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: https://sonarcloud.io
